@@ -1,71 +1,82 @@
-# ai-edit-manager README
+# AI Edit Manager
 
-This is the README for your extension "ai-edit-manager". After writing up a brief description, we recommend including the following sections.
+AI Edit Manager is a powerful VS Code extension that provides intelligent undo and rollback functionality with special support for AI-generated code changes from tools like GitHub Copilot and Cursor AI.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+- 🤖 **AI-Aware Change Tracking**: Automatically detects and tracks changes made by AI tools like GitHub Copilot and Cursor
+- 🔄 **Smart Undo**: Uses AI to analyze changes and help you decide whether to keep or undo them
+- 📝 **Rich History**: Maintains a detailed history of both manual and AI-generated changes
+- 🔍 **Visual Diff**: Compare changes with an integrated diff viewer
+- 🔒 **Secure**: Stores API keys securely in VS Code's secret storage
 
-For example if there is an image subfolder under your extension project workspace:
+## Commands
 
-\!\[feature X\]\(images/feature-x.png\)
+All commands can be accessed via the Command Palette (Ctrl+Shift+P / Cmd+Shift+P):
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+- `AI Edit: Configure Settings` - Configure AI provider and API key
+- `AI Edit: Undo Last AI Change` (Ctrl+Shift+Z) - Quickly undo the last AI-generated change
+- `AI Edit: Analyze and Undo with AI` (Ctrl+Shift+U) - Analyze current changes with AI and decide whether to undo
+- `AI Edit: Show Edit History` (Ctrl+Shift+H) - View and compare historical changes
+- `AI Edit: Rollback to Point` - Roll back to any point in the file's history
+
+## Setup
+
+1. Install the extension from VS Code Marketplace
+2. Open the Command Palette and run `AI Edit: Configure Settings`
+3. Choose your preferred AI provider (OpenAI or Anthropic)
+4. Enter your API key (stored securely)
+5. Optionally configure other settings in VS Code settings
+
+## Configuration
+
+The extension supports the following settings:
+
+- `aiEdit.provider`: AI provider to use ("openai" or "anthropic")
+- `aiEdit.model`: AI model to use (defaults to GPT-4 Turbo for OpenAI)
+- `aiEdit.maxHistorySize`: Maximum number of history entries per file
+- `aiEdit.trackAIChanges`: Enable/disable tracking of AI-generated changes
+
+## Usage
+
+### Managing AI Changes
+
+When GitHub Copilot or Cursor AI makes changes to your code:
+
+1. Use `Ctrl+Shift+Z` to quickly undo the last AI change
+2. Or use `Ctrl+Shift+U` to get an AI analysis of the changes before deciding
+3. View the diff to see exactly what changed
+
+### Viewing History
+
+1. Press `Ctrl+Shift+H` to open the history view
+2. Select any point in history to:
+   - View the differences
+   - Roll back to that point
+   - Analyze changes with AI
+
+### Rolling Back Changes
+
+1. Use the Command Palette to run `AI Edit: Rollback to Point`
+2. Select the desired point in history
+3. The file will be restored to that state, including cursor position
 
 ## Requirements
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
-
-## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+- VS Code 1.99.0 or higher
+- OpenAI API key or Anthropic API key
 
 ## Known Issues
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+Please report any issues on our GitHub repository.
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
-
 ### 1.0.0
 
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+Initial release with:
+- AI-aware change tracking
+- Smart undo functionality
+- History management
+- Visual diff integration
+- Secure API key storage

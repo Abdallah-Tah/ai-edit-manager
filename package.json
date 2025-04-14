@@ -111,5 +111,8 @@
     "esbuild": "^0.25.2",
     "eslint": "^8.x",
     "typescript": "^5.5.4"
+  },
+  "dependencies": {
+    "ai-edit-manager": "file:"
   }
 }
