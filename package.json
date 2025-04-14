@@ -1,99 +1,115 @@
 {
   "name": "ai-edit-manager",
   "displayName": "AI Edit Manager",
-  "description": "Manage and undo AI-assisted code edits with GPT-4o, Claude, and more.",
+  "description": "AI-powered undo and rollback manager for VS Code with Copilot and Cursor AI integration",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.99.0"
   },
   "categories": [
-    "Other"
+    "Other",
+    "Programming Languages",
+    "Machine Learning"
   ],
   "activationEvents": [
-    "onStartupFinished",
-    "onCommand:aiEdit.configure",
-    "onCommand:aiEdit.fixWithAI",
-    "onCommand:aiEdit.undoLastAIEdit",
-    "onCommand:aiEdit.removeToken"
+    "onStartupFinished"
   ],
-  "main": "./dist/extension.js",
+  "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "aiEdit.fixWithAI",
-        "title": "AI Edit: Fix With AI"
+        "command": "aiEdit.settings",
+        "title": "AI Edit: Configure Settings"
       },
       {
-        "command": "aiEdit.undoLastAIEdit",
-        "title": "AI Edit: Undo Last AI Edit"
+        "command": "aiEdit.undoLastAIChange",
+        "title": "AI Edit: Undo Last AI Change"
       },
       {
-        "command": "aiEdit.configure",
-        "title": "AI Edit: Configure API & Model"
+        "command": "aiEdit.undoWithAI",
+        "title": "AI Edit: Analyze and Undo with AI"
       },
       {
-        "command": "aiEdit.removeToken",
-        "title": "AI Edit: Remove Stored API Token"
+        "command": "aiEdit.showHistory",
+        "title": "AI Edit: Show Edit History"
+      },
+      {
+        "command": "aiEdit.rollbackToPoint",
+        "title": "AI Edit: Rollback to Point"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "aiEdit.undoLastAIChange",
+        "key": "ctrl+shift+z",
+        "mac": "cmd+shift+z",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "aiEdit.undoWithAI",
+        "key": "ctrl+shift+u",
+        "mac": "cmd+shift+u",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "aiEdit.showHistory",
+        "key": "ctrl+shift+h",
+        "mac": "cmd+shift+h",
+        "when": "editorTextFocus"
       }
     ],
     "configuration": {
-      "type": "object",
-      "title": "AI Edit Manager Settings",
+      "title": "AI Edit Manager",
       "properties": {
         "aiEdit.provider": {
           "type": "string",
-          "default": "openai",
           "enum": [
             "openai",
             "anthropic"
           ],
-          "description": "LLM Provider (OpenAI or Anthropic)"
+          "default": "openai",
+          "description": "The AI provider to use for change analysis"
+        },
+        "aiEdit.apiKey": {
+          "type": "string",
+          "description": "API key for the selected AI provider (stored securely)"
         },
         "aiEdit.model": {
           "type": "string",
-          "default": "gpt-4o",
-          "description": "Model name, e.g., gpt-4o or claude-3-sonnet-20240229"
+          "description": "Model to use for AI operations",
+          "default": "gpt-4-turbo-preview"
+        },
+        "aiEdit.maxHistorySize": {
+          "type": "number",
+          "default": 50,
+          "description": "Maximum number of history entries to keep per file"
+        },
+        "aiEdit.trackAIChanges": {
+          "type": "boolean",
+          "default": true,
+          "description": "Track changes made by AI tools like GitHub Copilot and Cursor"
         }
       }
     }
   },
   "scripts": {
-    "vscode:prepublish": "npm run package",
-    "compile": "npm run check-types && npm run lint && node esbuild.js",
-    "watch": "npm-run-all -p watch:*",
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -w -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js",
     "watch:esbuild": "node esbuild.js --watch",
-    "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
-    "package": "npm run check-types && npm run lint && node esbuild.js --production",
-    "compile-tests": "tsc -p . --outDir out",
-    "watch-tests": "tsc -p . -w --outDir out",
-    "pretest": "npm run compile-tests && npm run compile && npm run lint",
-    "check-types": "tsc --noEmit",
-    "lint": "eslint src",
-    "test": "vscode-test"
+    "watch:tsc": "tsc -w -p ./"
   },
   "devDependencies": {
-    "@types/mocha": "^10.0.7",
-    "@types/node": "20.x",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^22.14.0",
     "@types/vscode": "^1.99.0",
-    "@typescript-eslint/eslint-plugin": "^8.3.0",
-    "@typescript-eslint/parser": "^8.3.0",
-    "@vscode/test-cli": "^0.0.10",
-    "@vscode/test-electron": "^2.4.1",
+    "@typescript-eslint/eslint-plugin": "^6.x",
+    "@typescript-eslint/parser": "^6.x",
     "esbuild": "^0.25.2",
-    "eslint": "^9.9.1",
-    "npm-run-all": "^4.1.5",
+    "eslint": "^8.x",
     "typescript": "^5.5.4"
-  },
-  "keywords": [
-    "ai",
-    "openai",
-    "claude",
-    "refactor",
-    "code assistant",
-    "undo",
-    "copilot alternative"
-  ],
-  "dependencies": {
-    "ai-edit-manager": "file:"
   }
 }
